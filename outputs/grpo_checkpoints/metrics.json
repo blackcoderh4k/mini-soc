@@ -1,0 +1,122 @@
+[
+  {
+    "step": 1,
+    "task_id": "threat_response",
+    "scenario_id": "sql_injection_001",
+    "mean_score": 0.001,
+    "max_score": 0.001,
+    "min_score": 0.001,
+    "loss": 0.0,
+    "lr": 8.000000000000001e-06,
+    "step_time_s": 48.97,
+    "advantages_std": 0.0
+  },
+  {
+    "step": 2,
+    "task_id": "threat_response",
+    "scenario_id": "phishing_lateral_001",
+    "mean_score": 0.1338,
+    "max_score": 0.2667,
+    "min_score": 0.001,
+    "loss": 0.0,
+    "lr": 1.2e-05,
+    "step_time_s": 67.74,
+    "advantages_std": 1.0
+  },
+  {
+    "step": 3,
+    "task_id": "threat_response",
+    "scenario_id": "supply_chain_001",
+    "mean_score": 0.001,
+    "max_score": 0.001,
+    "min_score": 0.001,
+    "loss": 0.0,
+    "lr": 1.6000000000000003e-05,
+    "step_time_s": 44.36,
+    "advantages_std": 0.0
+  },
+  {
+    "step": 4,
+    "task_id": "threat_response",
+    "scenario_id": "supply_chain_001",
+    "mean_score": 0.2267,
+    "max_score": 0.28,
+    "min_score": 0.1733,
+    "loss": -1e-06,
+    "lr": 2e-05,
+    "step_time_s": 72.55,
+    "advantages_std": 1.0
+  },
+  {
+    "step": 5,
+    "task_id": "incident_investigation",
+    "scenario_id": "ransomware_001",
+    "mean_score": 0.001,
+    "max_score": 0.001,
+    "min_score": 0.001,
+    "loss": 0.0,
+    "lr": 2e-05,
+    "step_time_s": 39.23,
+    "advantages_std": 0.0
+  },
+  {
+    "step": 6,
+    "task_id": "threat_response",
+    "scenario_id": "phishing_lateral_001",
+    "mean_score": 0.001,
+    "max_score": 0.001,
+    "min_score": 0.001,
+    "loss": 0.0,
+    "lr": 2e-05,
+    "step_time_s": 43.37,
+    "advantages_std": 0.0
+  },
+  {
+    "step": 7,
+    "task_id": "threat_response",
+    "scenario_id": "supply_chain_001",
+    "mean_score": 0.001,
+    "max_score": 0.001,
+    "min_score": 0.001,
+    "loss": 0.0,
+    "lr": 2e-05,
+    "step_time_s": 43.5,
+    "advantages_std": 0.0
+  },
+  {
+    "step": 8,
+    "task_id": "alert_triage",
+    "scenario_id": "mixed",
+    "mean_score": 0.001,
+    "max_score": 0.001,
+    "min_score": 0.001,
+    "loss": 0.0,
+    "lr": 2e-05,
+    "step_time_s": 46.64,
+    "advantages_std": 0.0
+  },
+  {
+    "step": 9,
+    "task_id": "threat_response",
+    "scenario_id": "multi_stage_apt_001",
+    "mean_score": 0.2484,
+    "max_score": 0.26,
+    "min_score": 0.2367,
+    "loss": -5.3e-05,
+    "lr": 2e-05,
+    "step_time_s": 96.57,
+    "advantages_std": 1.0
+  },
+  {
+    "step": 10,
+    "task_id": "threat_response",
+    "scenario_id": "phishing_lateral_001",
+    "mean_score": 0.3916,
+    "max_score": 0.43,
+    "min_score": 0.3533,
+    "loss": 9.1e-05,
+    "lr": 2e-05,
+    "step_time_s": 114.93,
+    "advantages_std": 1.0
+  }
+]

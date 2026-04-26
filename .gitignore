@@ -1,0 +1,48 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Pytest / Coverage
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Type checking
+.mypy_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Environment variables (secrets)
+.env
+
+# Output files (runtime artifacts)
+outputs/logs/*
+outputs/evals/*
+!outputs/logs/.gitkeep
+!outputs/evals/.gitkeep
+
+# Lock files
+uv.lock
+
+# Gemini
+.gemini/
+
+# Large model weight files (too big for GitHub without LFS)
+# Upload to HuggingFace Hub instead
+outputs/merged_model/*.safetensors
+outputs/merged_model/tokenizer.json
+outputs/grpo_checkpoints/**/adapter_model.safetensors
+outputs/grpo_checkpoints/**/tokenizer.json

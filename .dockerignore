@@ -1,0 +1,57 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+
+# Pytest / Coverage
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Type checking
+.mypy_cache/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+
+# Docker (don't copy into image)
+docker-compose.yml
+.dockerignore
+Makefile
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Output files
+outputs/
+*.txt
+!requirements.txt
+
+# Docs / media (not needed at runtime)
+docs/
+*.svg
+*.png
+*.jpg
+
+# Lock files
+uv.lock
+
+# Gemini agent data
+.gemini/

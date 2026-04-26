@@ -1,0 +1,111 @@
+name: mini-soc
+version: "1.0.0"
+description: >
+  Mini Security Operations Center (SOC) environment.
+  An AI agent acts as a Tier-1 SOC analyst: triaging alerts,
+  investigating incidents, and responding to active threats.
+  Models a real-world task performed by cybersecurity professionals daily.
+tags:
+  - openenv
+  - cybersecurity
+  - soc
+  - reinforcement-learning
+  - agent-evaluation
+
+observation_space:
+  type: object
+  description: Current SOC analyst workstation state
+  fields:
+    current_alert:
+      type: object
+      description: The active alert being investigated
+    alert_queue:
+      type: array
+      description: Pending alerts awaiting triage
+    available_logs:
+      type: array
+      description: Log entries retrieved so far this episode
+    asset_inventory:
+      type: array
+      description: Network assets with criticality ratings
+    open_incidents:
+      type: array
+      description: Active incident cases
+    actions_taken:
+      type: array
+      description: History of actions this episode
+    time_elapsed:
+      type: integer
+      description: Simulated minutes elapsed in shift
+    task_context:
+      type: object
+      description: Task-specific state and objectives
+    message:
+      type: string
+      description: human-readable status message
+
+action_space:
+  type: object
+  description: SOC analyst actions
+  fields:
+    action_type:
+      type: string
+      enum:
+        - query_logs
+        - classify_alert
+        - escalate
+        - isolate_asset
+        - block_ip
+        - close_incident
+        - write_report
+        - request_info
+    parameters:
+      type: object
+      description: Action-specific parameters
+
+tasks:
+  - id: alert_triage
+    name: Alert Triage
+    difficulty: easy
+    description: >
+      Classify a queue of 10 security alerts as benign, suspicious, or critical.
+      Assign correct priority levels based on alert metadata.
+    max_steps: 15
+    success_threshold: 0.6
+
+  - id: incident_investigation
+    name: Incident Investigation
+    difficulty: medium
+    description: >
+      Given one suspicious alert, query log sources to gather evidence,
+      correlate events across a timeline, and produce a final verdict
+      with the attack type identified.
+    max_steps: 20
+    success_threshold: 0.5
+
+  - id: threat_response
+    name: Active Threat Response
+    difficulty: hard
+    description: >
+      A multi-stage attack is unfolding in real time. Detect the kill chain,
+      contain the threat by isolating the right assets and blocking attacker IPs,
+      then write a structured incident report.
+    max_steps: 30
+    success_threshold: 0.4
+
+reward:
+  type: shaped
+  description: >
+    Dense reward signal across the full trajectory.
+    Rewards correct classifications, relevant evidence gathering,
+    correct verdicts, and fast SLA response.
+    Penalizes collateral damage and action thrashing.
+  range: [-1.0, 1.0]
+
+baseline:
+  script: inference.py
+  model: Qwen/Qwen2.5-72B-Instruct
+  expected_scores:
+    alert_triage: 0.65
+    incident_investigation: 0.42
+    threat_response: 0.22

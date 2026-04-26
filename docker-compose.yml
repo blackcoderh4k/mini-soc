@@ -1,0 +1,61 @@
+# =============================================================================
+# Mini SOC — Docker Compose
+# =============================================================================
+# Usage:
+#   docker compose up --build          # Build and start environment + agent
+#   docker compose up soc-env          # Start only the environment server
+#   docker compose run soc-agent       # Run the agent against the environment
+#   docker compose run soc-tests       # Run the full test suite
+#   docker compose down                # Stop and remove containers
+# =============================================================================
+
+services:
+  # -------------------------------------------------------------------------
+  # SOC Environment Server (FastAPI on port 8000)
+  # -------------------------------------------------------------------------
+  soc-env:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: mini-soc-env
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      start_period: 8s
+      retries: 5
+    restart: unless-stopped
+
+  # -------------------------------------------------------------------------
+  # SOC Agent Runner (deterministic agent — run_agent.py)
+  # -------------------------------------------------------------------------
+  soc-agent:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: mini-soc-agent
+    environment:
+      - SOC_ENV_URL=http://soc-env:8000
+    command: ["python", "run_agent.py"]
+    depends_on:
+      soc-env:
+        condition: service_healthy
+
+  # -------------------------------------------------------------------------
+  # Full Test Suite (full_test.py — 6 tabs, all layers)
+  # -------------------------------------------------------------------------
+  soc-tests:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: mini-soc-tests
+    environment:
+      - SOC_ENV_URL=http://soc-env:8000
+    command: ["python", "-m", "pytest", "tests/", "-v"]
+    depends_on:
+      soc-env:
+        condition: service_healthy
+    profiles:
+      - test
