@@ -272,31 +272,41 @@ def execute_episode(
     return final_score, total_step_reward, steps_taken, per_step_rewards
 
 
-def compute_reward(
-    prompts: List[str],
-    completions: List[str],
-    task_ids: List[str],
-    scenario_ids: Optional[List[str]] = None,
-) -> List[float]:
+def compute_reward(prompts: List[str], completions: List[List[Dict[str, str]] | str], **kwargs) -> List[float]:
     """
     TRL-compatible reward function.
 
     Args:
         prompts: The input prompts given to the model (one per sample).
-        completions: The generated action sequences (one per sample).
-        task_ids: Which task each sample belongs to.
-        scenario_ids: Optional scenario override per sample.
+        completions: The generated action sequences (one per sample). TRL may pass list of dicts.
+        **kwargs: Additional columns from the dataset (task_id, scenario_id).
 
     Returns:
         List of float rewards (one per sample).
     """
+    task_ids = kwargs.get("task_id", [])
+    scenario_ids = kwargs.get("scenario_id", [])
+
     rewards = []
     env = SocEnvironment()
 
     for i, (prompt, completion, task_id) in enumerate(zip(prompts, completions, task_ids)):
-        scenario_id = scenario_ids[i] if scenario_ids else None
+        scenario_id = scenario_ids[i] if scenario_ids and i < len(scenario_ids) else None
+        
+        # Extract raw text if TRL passes completion as list of dicts or other formats
+        if isinstance(completion, list) and len(completion) > 0 and isinstance(completion[-1], dict):
+            # TRL typically formats completions as messages: [{"role": "assistant", "content": "..."}]
+            completion_text = completion[-1].get("content", "")
+        elif isinstance(completion, list) and len(completion) > 0 and isinstance(completion[0], dict):
+            completion_text = completion[0].get("content", "")
+        elif isinstance(completion, dict):
+            completion_text = completion.get("content", "")
+        else:
+            # Fallback to string representation
+            completion_text = str(completion)
+
         try:
-            actions = parse_actions_from_text(completion)
+            actions = parse_actions_from_text(completion_text)
             if not actions:
                 # No valid actions parsed → minimum reward
                 rewards.append(0.001)
